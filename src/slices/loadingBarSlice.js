@@ -9,7 +9,7 @@ const loadingBarSlice = createSlice({
     initialState,
     reducers: {
         setProgress: (state, action) => {
-            return action.payload;
+            state.progress = action.payload;
         },
     },
 });

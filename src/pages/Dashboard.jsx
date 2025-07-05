@@ -20,7 +20,7 @@ const Dashboard = () => {
 
 
   return (
-    <div className='relative flex bg-richblack-400'>
+    <div className='relative flex bg-richblack-400 py-10'>
         <Sidebar />
         <div className=' flex-1 overflow-auto bg-richblack-900'>
             <div className='py-10'>

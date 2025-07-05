@@ -1,36 +1,35 @@
-import React, { useEffect, useState } from "react"
+import React, { useMemo } from "react"
 import {
   TiStarFullOutline,
   TiStarHalfOutline,
   TiStarOutline,
 } from "react-icons/ti"
 
-function RatingStars({ Review_Count, Star_Size }) {
-  const [starCount, SetStarCount] = useState({
-    full: 0,
-    half: 0,
-    empty: 0,
-  })
-
-  useEffect(() => {
-    const wholeStars = Math.floor(Review_Count) || 0
-    SetStarCount({
-      full: wholeStars,
-      half: Number.isInteger(Review_Count) ? 0 : 1,
-      empty: Number.isInteger(Review_Count) ? 5 - wholeStars : 4 - wholeStars,
-    })
+const RatingStars = ({ Review_Count = 0, Star_Size = 20 }) => {
+  // Memoize calculation to avoid unnecessary re-renders
+  const { full, half, empty } = useMemo(() => {
+    const clampedRating = Math.min(Math.max(Review_Count, 0), 5) // Clamp between 0–5
+    const fullStars = Math.floor(clampedRating)
+    const hasHalfStar = clampedRating - fullStars >= 0.25 && clampedRating - fullStars < 0.75 ? 1 : 0
+    const emptyStars = 5 - fullStars - hasHalfStar
+    return {
+      full: fullStars,
+      half: hasHalfStar,
+      empty: emptyStars,
+    }
   }, [Review_Count])
+
   return (
-    <div className="flex gap-1 text-yellow-100">
-      {[...new Array(starCount.full)].map((_, i) => {
-        return <TiStarFullOutline key={i} size={Star_Size || 20} />
-      })}
-      {[...new Array(starCount.half)].map((_, i) => {
-        return <TiStarHalfOutline key={i} size={Star_Size || 20} />
-      })}
-      {[...new Array(starCount.empty)].map((_, i) => {
-        return <TiStarOutline key={i} size={Star_Size || 20} />
-      })}
+    <div className="flex gap-1 text-yellow-400">
+      {Array.from({ length: full }, (_, i) => (
+        <TiStarFullOutline key={`full-${i}`} size={Star_Size} />
+      ))}
+      {Array.from({ length: half }, (_, i) => (
+        <TiStarHalfOutline key={`half-${i}`} size={Star_Size} />
+      ))}
+      {Array.from({ length: empty }, (_, i) => (
+        <TiStarOutline key={`empty-${i}`} size={Star_Size} />
+      ))}
     </div>
   )
 }

@@ -1,60 +1,73 @@
-import loginImg from "../assets/Images/login.webp"
-import Template from "../Components/core/Auth/Template"
-import { login } from "../services/operations/authAPI"
-import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { useState } from "react"
-import { TbCornerDownRightDouble } from "react-icons/tb"
-import { BsLightningChargeFill } from "react-icons/bs"
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { BsLightningChargeFill } from "react-icons/bs";
+import { TbCornerDownRightDouble } from "react-icons/tb";
+
+import loginImg from "../assets/Images/login.webp";
+import Template from "../Components/core/Auth/Template";
+import { login } from "../services/operations/authAPI";
 
 function Login() {
-  const [showDemo, setShowDemo] = useState(true)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  return (
-    <>
-    {/* test login ID */}
-    <div  className={`${showDemo ? "":"hidden"} justify-center items-center absolute bg-richblack-400 top-52 md:top-32 md:right-[50%] right-[10%] p-6 -rotate-[20deg] z-20 `}>
-      <div className="flex flex-col gap-2 relative">
-        <div onClick={()=>{setShowDemo(false)}} className="absolute top-[-30px] right-[-20px] text-5xl text-richblack-900 rounded-full w-[40px] h-[40px] flex justify-center items-center cursor-pointer">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20" height="20">
-  <circle cx="50" cy="50" r="45" fill="#888888" stroke="#000000" stroke-width="2" />
-  <circle cx="50" cy="50" r="20" fill="#ffffff" />
-</svg>
+  const [showDemo, setShowDemo] = useState(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  return (
+    <div className="min-h-screen w-full bg-gradient-to-br from-richblack-800 to-richblack-900 flex items-center justify-center relative overflow-hidden">
+      
+      {/* 🔰 Demo Login Box */}
+      {showDemo && (
+        <div className="absolute z-20 top-32 right-[5%] md:right-[10%] bg-richblack-700 border border-richblack-500 px-6 py-4 rounded-xl shadow-xl rotate-[-4deg]">
+          <div className="relative flex flex-col gap-4">
+            {/* ❌ Close Button */}
+            <button
+              onClick={() => setShowDemo(false)}
+              className="absolute -top-3 -right-3 bg-richblack-600 text-white rounded-full w-7 h-7 flex items-center justify-center hover:scale-105"
+              title="Close"
+            >
+              ✕
+            </button>
+
+            <p className="text-xl font-bold text-yellow-50 flex items-center gap-2">
+              Take a Demo <BsLightningChargeFill size={20} />
+            </p>
+
+            <div className="flex flex-col gap-3 mt-1">
+              <button
+                onClick={() =>
+                  dispatch(login("rp2628336@gmail.com", "12345", navigate))
+                }
+                className="bg-yellow-100 hover:bg-yellow-200 text-richblack-900 font-semibold px-4 py-2 rounded-md flex items-center justify-center gap-2 shadow-sm"
+              >
+                <TbCornerDownRightDouble className="text-xl hidden md:block" />
+                Instructor Demo
+              </button>
+
+              <button
+                onClick={() =>
+                  dispatch(login("1234@gmail.com", "12345", navigate))
+                }
+                className="bg-yellow-100 hover:bg-yellow-200 text-richblack-900 font-semibold px-4 py-2 rounded-md flex items-center justify-center gap-2 shadow-sm"
+              >
+                <TbCornerDownRightDouble className="text-xl hidden md:block" />
+                Student Demo
+              </button>
+            </div>
+          </div>
         </div>
-        <div className=" gap-y-2 flex flex-col">
-        <p className="text-2xl font-extrabold text-richblack-5 flex items-center">Take a Demo &nbsp; <BsLightningChargeFill size={20}/></p>
-        <div>
-        <button onClick={
-          () => {
-            dispatch(login("kumarhimanshusangwan@gmail.com", "12345", navigate)
-          )}
-        } className="bg-yellow-100 font-semibold mt-4 mb-1 text-richblack-900 px-4 py-2 rounded-md flex">
-          <TbCornerDownRightDouble className="text-2xl text-richblack-900 hidden md:block"/>
-          Click here for Instructor Demo</button>
-      </div>
-      <div>
-        <button onClick={
-          () => {
-            dispatch(login("1234@gmail.com", "12345", navigate)
-          )}
-        } className="bg-yellow-100 font-semibold text-richblack-900 px-4 py-2 rounded-md flex">
-          <TbCornerDownRightDouble className="text-2xl text-richblack-900 md:block hidden"/>
-          Click here for Student Demo</button>
-        </div>
-        </div>
-      </div>
+      )}
+
+      {/* 🧾 Login Form Template */}
+      <Template
+        title="Welcome Back"
+        description1="Build skills for today, tomorrow, and beyond."
+        description2="Education to future-proof your career."
+        image={loginImg}
+        formType="login"
+      />
     </div>
-    <Template
-      title="Welcome Back"
-      description1="Build skills for today, tomorrow, and beyond."
-      description2="Education to future-proof your career."
-      image={loginImg}
-      formType="login"
-    />
-    </>
-  )
+  );
 }
 
-export default Login
+export default Login;

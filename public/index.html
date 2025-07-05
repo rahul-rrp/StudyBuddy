@@ -1,114 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <!-- ✅ Meta Setup -->
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#001B22" />
-    <link rel="manifest" href="./manifest.json" />
-    <link
-      rel="shortcut icon"
-      href="./Logo-Small-Light.png"
-      type="image/x-icon"
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- 🌐 SEO -->
+    <title>StudyBuddy – Learn. Practice. Succeed.</title>
+    <meta
+      name="description"
+      content="StudyBuddy is your ultimate platform to learn, practice, and master skills in coding, development, and more."
     />
+    <meta
+      name="keywords"
+      content="StudyBuddy, coding, online learning, web development, programming, MERN, React, Node.js"
+    />
+    <meta name="author" content="StudyBuddy Team" />
+
+    <!-- 📱 Mobile -->
+    <meta name="theme-color" content="#000814" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!-- 📦 Manifest & Icons -->
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="apple-touch-icon" href="./Logo-Small-Light.png" />
+    <link rel="icon" href="./Logo-Small-Light.png" type="image/x-icon" />
+
+    <!-- 🎨 Styles -->
     <link rel="stylesheet" href="index.css" />
-    <title>StudyBuddy</title>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-FGLTECJGHX"
-    ></script>
+
+    <!-- 🧠 Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- 📈 Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FGLTECJGHX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-FGLTECJGHX");
     </script>
   </head>
 
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <strong>Please enable JavaScript to use StudyBuddy.</strong>
+    </noscript>
+
+    <!-- 🌟 Initial Loader -->
     <div id="root">
       <div class="loaderdiv">
-        <div class="waviy">
+        <div class="waviy" aria-label="Loading StudyBuddy...">
           <span style="--i: 1">S</span>
           <span style="--i: 2">T</span>
           <span style="--i: 3">U</span>
           <span style="--i: 4">D</span>
           <span style="--i: 5">Y</span>
-          <span> </span>
-          <span style="--i: 6">N</span>
-          <span style="--i: 7">O</span>
-          <span style="--i: 8">T</span>
-          <span style="--i: 9">I</span>
-          <span style="--i: 10">O</span>
-          <span style="--i: 11">N</span>
+          <span>&nbsp;</span>
+          <span style="--i: 6">B</span>
+          <span style="--i: 7">U</span>
+          <span style="--i: 8">D</span>
+          <span style="--i: 9">D</span>
+          <span style="--i: 10">Y</span>
         </div>
       </div>
     </div>
 
+    <!-- 🧩 PWA Install Prompt (Optional UI block) -->
+    <div
+      id="install-prompt"
+      style="display: none"
+      class="fixed bottom-4 right-4 bg-richblack-800 text-white p-4 rounded-lg shadow-xl backdrop-blur-md border border-yellow-200 max-w-[300px] z-50"
+    >
+      <p class="text-sm font-semibold">Install StudyBuddy on your device?</p>
+      <div class="mt-3 flex gap-2">
+        <button
+          id="install-button"
+          class="bg-yellow-300 text-black px-4 py-1 rounded hover:bg-yellow-400 text-sm font-medium"
+        >
+          Install
+        </button>
+        <button
+          id="close-button"
+          class="bg-gray-600 text-white px-4 py-1 rounded hover:bg-gray-700 text-sm"
+        >
+          Later
+        </button>
+      </div>
+    </div>
+
+    <!-- 🚀 Scripts -->
     <script>
       let deferredPrompt;
 
       function showInstallPrompt() {
         if (deferredPrompt) {
-          deferredPrompt.prompt(); // Show the install prompt
-          deferredPrompt.userChoice.then(function (choiceResult) {
-            if (choiceResult.outcome === "accepted") {
-              console.log("User accepted the install prompt");
-            } else {
-              console.log("User dismissed the install prompt");
-            }
-            deferredPrompt = null; // Reset the deferredPrompt
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choice) => {
+            console.log("Install:", choice.outcome);
+            deferredPrompt = null;
           });
         }
       }
 
-      // Add event listener to the install button
-      const installButton = document.getElementById("install-button");
-      installButton.addEventListener("click", function () {
-        showInstallPrompt();
-        document.getElementById("install-prompt").style.display = "none";
-      });
-
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
+      // Register Service Worker
+      window.addEventListener("load", () => {
+        if ("serviceWorker" in navigator) {
           navigator.serviceWorker
             .register("service-worker.js")
-            .then(function (registration) {
-              console.log(
-                "Service Worker registered with scope:",
-                registration.scope
-              );
-            })
-            .catch(function (error) {
-              console.error("Service Worker registration failed:", error);
-            });
-        });
+            .then((reg) => console.log("SW registered:", reg.scope))
+            .catch((err) => console.error("SW registration failed:", err));
+        }
+      });
 
-        // Move the event listener for beforeinstallprompt here
-        window.addEventListener("beforeinstallprompt", function (event) {
-          if (sessionStorage.getItem("installPrompt") === "true") {
-            return false;
-          }
-          event.preventDefault(); // Prevent the default browser install prompt
+      // Listen for install prompt
+      window.addEventListener("beforeinstallprompt", (e) => {
+        if (sessionStorage.getItem("installPrompt") === "true") return;
+        e.preventDefault();
+        deferredPrompt = e;
+        const promptEl = document.getElementById("install-prompt");
+        if (promptEl) promptEl.style.display = "block";
+      });
 
-          deferredPrompt = event; // Save the event for later use
+      // Handle button clicks
+      document.addEventListener("DOMContentLoaded", () => {
+        const installBtn = document.getElementById("install-button");
+        const closeBtn = document.getElementById("close-button");
 
-          // Show the custom install prompt
-          const installPrompt = document.getElementById("install-prompt");
-          installPrompt.style.display = "block";
-        });
-      }
-      document
-        .getElementById("close-button")
-        .addEventListener("click", function () {
+        installBtn?.addEventListener("click", () => {
+          showInstallPrompt();
           document.getElementById("install-prompt").style.display = "none";
-          //dont show install prompt again
+        });
+
+        closeBtn?.addEventListener("click", () => {
+          document.getElementById("install-prompt").style.display = "none";
           sessionStorage.setItem("installPrompt", "true");
         });
+      });
     </script>
   </body>
 </html>

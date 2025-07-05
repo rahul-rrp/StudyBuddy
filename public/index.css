@@ -1,92 +1,118 @@
- @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Inter:wght@400;600;700&display=swap');
+
+/* Reset + Base */
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-.loaderdiv{
-    width: 100vw;
-    height: 100vh;
-    background: #000814;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  body{
-    overflow: hidden;
-    background-color: #000814;
-  }
+body {
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  background-color: #000814;
+  color: white;
+}
+
+/* 🔄 Fullscreen Loader */
+.loaderdiv {
+  width: 100vw;
+  height: 100vh;
+  background: #000814;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 10000;
+}
+
+/* 🔤 Animated Loader Text */
 .waviy {
   position: relative;
-  -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
-  font-size: 30px;
+  -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+  font-size: 32px;
 }
+
 .waviy span {
-  font-family: 'Alfa Slab One',sans-serif;
+  font-family: 'Alfa Slab One', cursive;
   position: relative;
   display: inline-block;
-  color: #fff;
+  color: #ffd60a;
   text-transform: uppercase;
-  animation: waviy 2s infinite;
-  animation-delay: calc(.1s * var(--i));
-  
+  animation: waviy 1.6s infinite;
+  animation-delay: calc(0.1s * var(--i));
 }
+
 @keyframes waviy {
-  0%,40%,100% {
-    transform: translateY(0)
+  0%, 40%, 100% {
+    transform: translateY(0);
   }
   20% {
-    transform: translateY(-20px)
+    transform: translateY(-18px);
   }
 }
 
+/* 📦 Install Prompt (Polished) */
+#install-prompt {
+  display: none;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: #1d1f27;
+  border: 1px solid #ffd60a;
+  border-radius: 10px;
+  padding: 1rem;
+  z-index: 9999;
+  animation: fadeInUp 0.3s ease-in-out;
+  backdrop-filter: blur(6px);
+  color: #fff;
+  width: max-content;
+  max-width: 280px;
+}
 
+#install-prompt p {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
 
+#install-prompt button {
+  cursor: pointer;
+  border: none;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  transition: 0.2s ease-in-out;
+}
 
+#install-button {
+  background-color: #ffd60a;
+  color: #000814;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
 
-.install-prompt {
-    display: none;
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    border-radius: 8px;
-    z-index: 9999;
+#install-button:hover {
+  background-color: #facc15;
+}
+
+#close-button {
+  background-color: #333c4f;
+  color: #fff;
+}
+
+#close-button:hover {
+  background-color: #475063;
+}
+
+/* ✨ Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
   }
-  
-  .install-prompt-content {
-    display: flex;
-    gap: 5px;
-    align-items: center;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .install-button {
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    padding: 5px 11px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-
-  .install-prompt-header {
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  .close-button {
-    
-    border: none;
-    padding: 1px 6px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    position: absolute;
-    top: 2px;
-    right: 3px;
-  }
-  
+}

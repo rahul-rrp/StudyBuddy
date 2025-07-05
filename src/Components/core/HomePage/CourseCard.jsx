@@ -1,27 +1,33 @@
-
-const CourseCard = ({cardData,currentCard,setCurrentCard}) => {
+const CourseCard = ({ cardData, currentCard, setCurrentCard }) => {
+  const isActive = currentCard === cardData.heading;
 
   return (
-    <div>
-      
-    <button className={`flex flex-col  w-[360px] p-5 gap-1  ${currentCard===cardData.heading? "bg-white text-richblack-700 shadow-[12px_12px_0px] shadow-[#FFD60A]":"bg-richblack-700 text-richblue-100"}`} onClick={()=>{setCurrentCard(cardData.heading)}}>
+    <button
+      onClick={() => setCurrentCard(cardData.heading)}
+      className={`w-full max-w-[360px] text-left rounded-lg border transition-all duration-300 
+        ${isActive
+          ? "bg-white text-richblack-900 shadow-[12px_12px_0px_0px_#FFD60A] border-yellow-400"
+          : "bg-richblack-700 text-richblue-100 border-transparent hover:border-richblack-600 hover:bg-richblack-600"}`}
+    >
+      {/* Heading & Description */}
+      <div className="p-5 border-b border-dashed border-richblack-100">
+        <h3
+          className={`text-xl font-bold mb-2 ${
+            isActive ? "text-black" : "text-richblue-50"
+          }`}
+        >
+          {cardData.heading}
+        </h3>
+        <p className="text-base text-richblack-300">{cardData.description}</p>
+      </div>
 
-<div className=' flex flex-col text-center p-2 border-b-2 border-richblack-100 border-dashed'>
-  <p className={` text-xl font-bold text-left mb-2 ${currentCard===cardData.heading?"text-black":"text-richblue-5 "}`}>
-    {cardData.heading}
-  </p>
-  <p className=" text-left mb-6 text-base ">
-    {cardData.description}
-  </p>
-</div>
-<div className=' flex justify-between w-full p-3'>
-  <p>{cardData.level}</p>
-  <p>{cardData.lessionNumber} Lessons</p>
-  </div>
-</button>
-    </div>
+      {/* Footer */}
+      <div className="flex items-center justify-between px-5 py-3 text-sm font-medium">
+        <span>{cardData.level}</span>
+        <span>{cardData.lessionNumber} Lessons</span>
+      </div>
+    </button>
+  );
+};
 
-  )
-}
-
-export default CourseCard
+export default CourseCard;
